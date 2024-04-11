@@ -82,6 +82,9 @@ def company(req):
         'data':serializer.data
     })
 
+#token authenticator vs JWT token authenticator-JWT provides more security by periodically refreshing the tokens generated so it cannot be accessed easily by any unauthorised access
+
+
 #converts the normal function into an api based function, without the api_view this request is a wsgi request while with api_view() it becomes a rest_frameworkAPI request
 # @api_view(['GET'])
 # def home(req):   
