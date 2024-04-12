@@ -5,9 +5,12 @@ from app.models import *
 from app.serializers import *
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 #ApiView is a compact way of defining all methods i.e GET,PUT,POST as a view
 class PersonAPIview(APIView):
+   
     def get(self,req):
         person_obj = Person.objects.all()
         serializer = PersonSerializer(person_obj,many=True)
@@ -83,7 +86,7 @@ def company(req):
         'data':serializer.data
     })
 
-#token authenticator vs JWT token authenticator-JWT provides more security by periodically refreshing the tokens generated so it cannot be accessed easily by any unauthorised access
+#token authenticator vs JWT token authenticator-JWT provides more security by periodically refreshing the tokens generated so it cannot be accessed easily by any unauthorised access, allows us to expire the token on demand
 #Tokens are used in order to make a session token for a particular user login, because HTTP is a stateless protocol i.e after every request it forgets the sender.
 
 
@@ -101,7 +104,7 @@ class UserAPIview(APIView):
         token, _ = Token.objects.get_or_create(user=user)
         return Response({
             'data':serializer.data,
-            'token':token,
+            'token':str(token),
             'message':'user created succesfully'
         })
 

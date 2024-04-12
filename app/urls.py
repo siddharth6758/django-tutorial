@@ -10,5 +10,6 @@ urlpatterns = [
     path('company/',av.company,name='company'),
     path('person/',av.PersonAPIview.as_view(),name='person'),
     path('usertokens/',av.UserAPIview.as_view(),name='userview'),
-    path('api-token-auth/', views.obtain_auth_token),
+    #for automatic token generation rest_framework provides the following view:
+    # path('api-token-auth/', views.obtain_auth_token),
 ]
