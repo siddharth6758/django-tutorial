@@ -10,6 +10,7 @@
 
 from rest_framework import serializers
 from app.models import Person,Company
+from django.contrib.auth.models import User
 
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,3 +40,10 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
         #depth is used to define the depth of information shown by the foreign key
         # depth = 1
+        
+
+#for token authorization we need to serialize the user data/user credentials
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username','password']

@@ -83,6 +83,11 @@ def company(req):
     })
 
 #token authenticator vs JWT token authenticator-JWT provides more security by periodically refreshing the tokens generated so it cannot be accessed easily by any unauthorised access
+#Tokens are used in order to make a session token for a particular user login, because HTTP is a stateless protocol i.e after every request it forgets the sender.
+
+
+class UserAPIview(APIView):
+    pass
 
 
 #converts the normal function into an api based function, without the api_view this request is a wsgi request while with api_view() it becomes a rest_frameworkAPI request
