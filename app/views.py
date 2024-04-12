@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from app.models import *
 from app.serializers import *
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 
 #ApiView is a compact way of defining all methods i.e GET,PUT,POST as a view
 class PersonAPIview(APIView):
@@ -87,8 +88,22 @@ def company(req):
 
 
 class UserAPIview(APIView):
-    pass
-
+    
+    def post(self,req):
+        #takes user data and serializes it
+        serializer = UserSerializer(data=req.data)
+        if not serializer.is_valid():
+            return Response({'error':serializer.errors})
+        serializer.save()
+        #takes the user object from the User database
+        user = User.objects.get(username=serializer.data['username'])
+        #generates a token for the user
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({
+            'data':serializer.data,
+            'token':token,
+            'message':'user created succesfully'
+        })
 
 #converts the normal function into an api based function, without the api_view this request is a wsgi request while with api_view() it becomes a rest_frameworkAPI request
 # @api_view(['GET'])

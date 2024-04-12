@@ -47,3 +47,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username','password']
+    
+    #overriding the create method of user.objects.create() so the password stored is hashed
+    def create(self,data):
+        user = User.objects.create(username=data['username'])
+        user.set_password(data['password'])
+        user.save()
+        return user
